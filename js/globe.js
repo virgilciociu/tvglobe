@@ -1,7 +1,7 @@
 // TV Globe - step 3: rotating 3D globe with hover, click-to-zoom on a country.
 
 // Natural Earth countries, trimmed to the fields Globe uses (served from this site, so it is cached and small).
-const COUNTRIES_URL = 'data/countries.json?v=28';
+const COUNTRIES_URL = 'data/countries.json?v=29';
 
 const COLOR_LAND = '#8ec1ff';
 const COLOR_HOVER = '#ffd54f';
@@ -13,6 +13,7 @@ const DEFAULT_VIEW = { lat: 20, lng: 10, altitude: 2.5 };
 const ZOOM_MS = 1200;
 
 let hoveredCountry = null;
+let landInTexture = false;   // set by js/daynight.js once the day/night texture is on the globe
 let selectedCountry = null;
 
 const container = document.getElementById('globe');
@@ -26,6 +27,12 @@ function isEnabled() {
 
 function countryName(d) {
   return displayCountry(countryCode(d)) || d.properties.NAME || d.properties.ADMIN;
+}
+
+// Called by js/daynight.js when the texture is in place.
+function onDayNightReady() {
+  landInTexture = true;
+  refreshPolygons();
 }
 
 function refreshPolygons() {
@@ -43,7 +50,7 @@ const globe = Globe()(container)
     if (!isEnabled(d)) return COLOR_DISABLED;
     if (d === selectedCountry) return COLOR_SELECTED;
     if (d === hoveredCountry) return COLOR_HOVER;
-    return COLOR_LAND;
+    return landInTexture ? 'rgba(142,193,255,0)' : COLOR_LAND;   // land is painted into the day/night texture
   })
   .polygonSideColor(() => 'rgba(0,0,0,0)')
   .polygonStrokeColor(() => COLOR_BORDER)
@@ -158,6 +165,7 @@ fetch(COUNTRIES_URL)
   .then(res => res.json())
   .then(data => {
     globe.polygonsData(data.features);
+    if (typeof startDayNight === 'function') startDayNight(data.features);
     if (typeof onCountriesReady === 'function') onCountriesReady();
   })
   .catch(err => console.error('Could not load country data:', err));
