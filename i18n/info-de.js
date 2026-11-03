@@ -34,7 +34,7 @@ Object.assign(window.I18N.de, {
 
   sec5Title: 'Datenschutz',
   privacy1: 'Globe hat keine Konten, keine Analyse und keine Werbung. Das Einzige, was im Browser gespeichert wird, ist deine Sprachwahl.',
-  privacy2: 'Dein Browser kontaktiert Dritte direkt: Code-Bibliotheken (unpkg und jsDelivr), Ländergrenzen (GitHub), Flaggen (flagcdn.com), die Stream-Server der Sender und die offiziellen Websites, wenn du einen offiziellen Player öffnest. Dort gelten deren eigene Cookies und Werberegeln.',
+  privacy2: 'Dein Browser kontaktiert Dritte direkt: Code-Bibliotheken (unpkg und jsDelivr), Ländergrenzen (GitHub), Flaggen (flagcdn.com), das Google-Cast-Skript (gstatic.com, nur außerhalb von Safari), die Stream-Server der Sender und die offiziellen Websites, wenn du einen offiziellen Player öffnest. Dort gelten deren eigene Cookies und Werberegeln.',
 
   sec6Title: 'Sender in dieser Version',
   channelsIntro: 'Aus der aktuellen Senderliste erzeugt.',

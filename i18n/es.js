@@ -70,7 +70,7 @@ Object.assign(window.I18N.es, {
 
   sec5Title: 'Privacidad',
   privacy1: 'Globe no tiene cuentas, ni analíticas, ni publicidad. Lo único que guarda en tu navegador es tu elección de idioma.',
-  privacy2: 'Tu navegador contacta directamente con terceros: bibliotecas de código (unpkg y jsDelivr), formas de países (GitHub), banderas (flagcdn.com), los servidores de señal de los canales y los sitios oficiales cuando abres un reproductor oficial. Allí se aplican sus propias cookies y normas de publicidad.',
+  privacy2: 'Tu navegador contacta directamente con terceros: bibliotecas de código (unpkg y jsDelivr), formas de países (GitHub), banderas (flagcdn.com), el script de Google Cast (gstatic.com, solo fuera de Safari), los servidores de señal de los canales y los sitios oficiales cuando abres un reproductor oficial. Allí se aplican sus propias cookies y normas de publicidad.',
 
   sec6Title: 'Canales en esta versión',
   channelsIntro: 'Generado a partir de la lista actual de canales.',

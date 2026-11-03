@@ -34,7 +34,7 @@ Object.assign(window.I18N.ro, {
 
   sec5Title: 'Confidențialitate',
   privacy1: 'Globe nu are conturi, analiză de trafic și nici reclame. Singurul lucru pe care îl salvează în browser este alegerea limbii.',
-  privacy2: 'Browserul tău contactează direct terți: biblioteci de cod (unpkg și jsDelivr), formele țărilor (GitHub), steaguri (flagcdn.com), serverele de stream ale canalelor și site-urile oficiale când deschizi un player oficial. Acolo se aplică propriile lor cookie-uri și reguli de publicitate.',
+  privacy2: 'Browserul tău contactează direct terți: biblioteci de cod (unpkg și jsDelivr), formele țărilor (GitHub), steaguri (flagcdn.com), scriptul Google Cast (gstatic.com, doar în afara Safari), serverele de stream ale canalelor și site-urile oficiale când deschizi un player oficial. Acolo se aplică propriile lor cookie-uri și reguli de publicitate.',
 
   sec6Title: 'Canalele din această versiune',
   channelsIntro: 'Generat din lista curentă de canale.',

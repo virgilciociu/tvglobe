@@ -34,7 +34,7 @@ Object.assign(window.I18N.en, {
 
   sec5Title: 'Privacy',
   privacy1: 'Globe has no accounts, no analytics and no advertising. The only thing it saves in your browser is your language choice.',
-  privacy2: 'Your browser contacts third parties directly: code libraries (unpkg and jsDelivr), country shapes (GitHub), flags (flagcdn.com), the channels’ stream servers, and the official websites when you open an official player. Their own cookies and advertising rules apply there.',
+  privacy2: 'Your browser contacts third parties directly: code libraries (unpkg and jsDelivr), country shapes (GitHub), flags (flagcdn.com), the Google Cast script (gstatic.com, only outside Safari), the channels’ stream servers, and the official websites when you open an official player. Their own cookies and advertising rules apply there.',
 
   sec6Title: 'Channels in this version',
   channelsIntro: 'Generated from the current channel list.',

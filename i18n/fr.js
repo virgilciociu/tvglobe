@@ -70,7 +70,7 @@ Object.assign(window.I18N.fr, {
 
   sec5Title: 'Confidentialité',
   privacy1: 'Globe n’a ni compte, ni analyse d’audience, ni publicité. La seule chose enregistrée dans votre navigateur est votre choix de langue.',
-  privacy2: 'Votre navigateur contacte directement des tiers : bibliothèques de code (unpkg et jsDelivr), formes des pays (GitHub), drapeaux (flagcdn.com), serveurs de flux des chaînes, et sites officiels lorsque vous ouvrez un lecteur officiel. Leurs propres cookies et règles publicitaires s’appliquent alors.',
+  privacy2: 'Votre navigateur contacte directement des tiers : bibliothèques de code (unpkg et jsDelivr), formes des pays (GitHub), drapeaux (flagcdn.com), le script Google Cast (gstatic.com, hors Safari uniquement), serveurs de flux des chaînes, et sites officiels lorsque vous ouvrez un lecteur officiel. Leurs propres cookies et règles publicitaires s’appliquent alors.',
 
   sec6Title: 'Chaînes dans cette version',
   channelsIntro: 'Généré à partir de la liste actuelle des chaînes.',

@@ -89,13 +89,18 @@ function destroyHls() {
   }
 }
 
-// --- Send to TV (AirPlay). Shown only when Safari reports a nearby AirPlay target
-// and a stream is playing directly (official embedded players cannot be sent).
+// --- Send to TV. One button, two technologies:
+//  - AirPlay (Safari on iPhone/iPad/Mac), built into the browser;
+//  - Chromecast (Chrome on Android/desktop), through the Google Cast sender script.
+// Shown only when a TV is nearby and a stream is playing directly (official embedded
+// players cannot be sent).
 const castBtn = document.getElementById('cast-btn');
 let airplayAvailable = false;
+let castAvailable = false;
+let currentStreamUrl = null;
 
 function setCastVisible(on) {
-  castBtn.hidden = !(on && airplayAvailable && !playerEl.hidden);
+  castBtn.hidden = !(on && (airplayAvailable || castAvailable) && !playerEl.hidden);
 }
 
 if (window.WebKitPlaybackTargetAvailabilityEvent && playerEl.webkitShowPlaybackTargetPicker) {
@@ -103,8 +108,56 @@ if (window.WebKitPlaybackTargetAvailabilityEvent && playerEl.webkitShowPlaybackT
     airplayAvailable = e.availability === 'available';
     setCastVisible(!playerEl.paused || !!playerEl.currentSrc);
   });
-  castBtn.addEventListener('click', () => playerEl.webkitShowPlaybackTargetPicker());
+} else {
+  // Not Safari: load the Google Cast sender (only then, to avoid needless third-party requests).
+  window.__onGCastApiAvailable = ok => { if (ok) initChromecast(); };
+  const castScript = document.createElement('script');
+  castScript.src = 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1';
+  castScript.async = true;
+  document.head.appendChild(castScript);
 }
+
+function initChromecast() {
+  const ctx = cast.framework.CastContext.getInstance();
+  ctx.setOptions({
+    receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+    autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+  });
+  const update = () => {
+    castAvailable = ctx.getCastState() !== cast.framework.CastState.NO_DEVICES_AVAILABLE;
+    setCastVisible(!playerWrap.hidden);
+  };
+  ctx.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, update);
+  update();
+}
+
+function chromecastSession() {
+  if (!castAvailable) return null;
+  return cast.framework.CastContext.getInstance().getCurrentSession();
+}
+
+function sendToChromecast() {
+  const session = chromecastSession();
+  if (!session || !currentStreamUrl) return;
+  const info = new chrome.cast.media.MediaInfo(currentStreamUrl, 'application/x-mpegURL');
+  info.streamType = chrome.cast.media.StreamType.LIVE;
+  info.metadata = new chrome.cast.media.GenericMediaMetadata();
+  info.metadata.title = playerTitle.textContent;
+  session.loadMedia(new chrome.cast.media.LoadRequest(info))
+    .then(() => playerEl.pause())
+    .catch(() => showPlayerMessage('playError'));
+}
+
+castBtn.addEventListener('click', () => {
+  if (airplayAvailable && playerEl.webkitShowPlaybackTargetPicker) {
+    playerEl.webkitShowPlaybackTargetPicker();
+  } else if (castAvailable) {
+    if (chromecastSession()) { sendToChromecast(); return; }
+    cast.framework.CastContext.getInstance().requestSession()
+      .then(err => { if (!err) sendToChromecast(); })
+      .catch(() => {});
+  }
+});
 
 function stopPlayer() {
   destroyHls();
@@ -132,6 +185,8 @@ function showPlayerMessage(key) {
 function playUrl(urls, index) {
   destroyHls();
   const url = urls[index];
+  currentStreamUrl = url;
+  if (chromecastSession()) sendToChromecast();
   const tryNext = () => {
     if (index + 1 < urls.length) {
       playUrl(urls, index + 1);
@@ -173,6 +228,7 @@ playerEl.addEventListener('playing', () => {
 });
 
 function playEmbedded(channel) {
+  currentStreamUrl = null;
   setCastVisible(false);
   destroyHls();
   playerEl.pause();
