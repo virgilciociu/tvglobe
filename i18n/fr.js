@@ -31,7 +31,7 @@ window.I18N.fr = {
   nextChannel: 'Chaîne suivante',
   fullscreen: 'Plein écran',
   tapFullscreen: 'Touchez pour le plein écran',
-  backToList: 'Liste des chaînes',
+  closePlayer: 'Fermer',
   close: 'Fermer',
   language: 'Langue',
   categories: {

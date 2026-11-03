@@ -1,7 +1,7 @@
 // TV Globe - step 3: rotating 3D globe with hover, click-to-zoom on a country.
 
 // Natural Earth countries, trimmed to the fields Globe uses (served from this site, so it is cached and small).
-const COUNTRIES_URL = 'data/countries.json?v=26';
+const COUNTRIES_URL = 'data/countries.json?v=27';
 
 const COLOR_LAND = '#8ec1ff';
 const COLOR_HOVER = '#ffd54f';

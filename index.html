@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Globe</title>
   <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-  <link rel="preload" href="data/countries.json?v=26" as="fetch" crossorigin>
+  <link rel="preload" href="data/countries.json?v=27" as="fetch" crossorigin>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/common.css?v=26">
-  <link rel="stylesheet" href="css/style.css?v=26">
+  <link rel="stylesheet" href="css/common.css?v=27">
+  <link rel="stylesheet" href="css/style.css?v=27">
 </head>
 <body>
   <div id="globe"></div>
@@ -61,6 +61,7 @@
       <div id="panel-date" class="panel-date"></div>
     </div>
     <div id="player-wrap" class="player-wrap" hidden>
+      <button id="close-player" class="close-player" type="button" data-i18n="closePlayer"></button>
       <video id="player" controls playsinline x-webkit-airplay="allow"></video>
       <iframe id="embed-frame" class="embed-frame" hidden
         allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
@@ -70,7 +71,6 @@
       <div id="player-msg" class="player-msg"></div>
       <div id="fs-hint" class="fs-hint" data-i18n="tapFullscreen"></div>
       <div class="player-bar">
-        <button id="back-btn" class="back-btn" type="button" data-i18n-aria="backToList">&#9776;</button>
         <div id="player-title" class="player-title"></div>
         <div class="zap">
           <button id="zap-prev" class="zap-btn" type="button" data-i18n-aria="prevChannel">&#8249;</button>
@@ -99,17 +99,17 @@
     </div>
   </aside>
 
-  <script src="js/vendor/globe.gl.min.js?v=26"></script>
-  <script src="i18n/en.js?v=26"></script>
-  <script src="i18n/de.js?v=26"></script>
-  <script src="i18n/ro.js?v=26"></script>
-  <script src="i18n/fr.js?v=26"></script>
-  <script src="i18n/es.js?v=26"></script>
-  <script src="js/i18n.js?v=26"></script>
-  <script src="data/timezones.js?v=26"></script>
-  <script src="data/channels.js?v=26"></script>
-  <script src="js/library.js?v=26"></script>
-  <script src="js/panel.js?v=26"></script>
-  <script src="js/globe.js?v=26"></script>
+  <script src="js/vendor/globe.gl.min.js?v=27"></script>
+  <script src="i18n/en.js?v=27"></script>
+  <script src="i18n/de.js?v=27"></script>
+  <script src="i18n/ro.js?v=27"></script>
+  <script src="i18n/fr.js?v=27"></script>
+  <script src="i18n/es.js?v=27"></script>
+  <script src="js/i18n.js?v=27"></script>
+  <script src="data/timezones.js?v=27"></script>
+  <script src="data/channels.js?v=27"></script>
+  <script src="js/library.js?v=27"></script>
+  <script src="js/panel.js?v=27"></script>
+  <script src="js/globe.js?v=27"></script>
 </body>
 </html>

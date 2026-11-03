@@ -31,7 +31,7 @@ window.I18N.en = {
   nextChannel: 'Next channel',
   fullscreen: 'Full screen',
   tapFullscreen: 'Tap for full screen',
-  backToList: 'Channel list',
+  closePlayer: 'Close',
   close: 'Close',
   language: 'Language',
   categories: {

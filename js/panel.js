@@ -496,13 +496,12 @@ document.getElementById('zap-next').addEventListener('click', () => zap(1));
 // 2. One tap in that mode asks the browser for real full screen (needs a gesture).
 // 3. A full-screen button does the same for people whose phone rotation is locked.
 const fsBtn = document.getElementById('fs-btn');
-const backBtn = document.getElementById('back-btn');
+const closePlayerBtn = document.getElementById('close-player');
 const fsHint = document.getElementById('fs-hint');
 const landscapeMQ = window.matchMedia('(orientation: landscape) and (max-height: 500px)');
 let uiTimer = null;
 let hintTimer = null;
 let autoFsTried = false;
-let theaterDismissed = false;
 
 const fsElement = () => document.fullscreenElement || document.webkitFullscreenElement || null;
 
@@ -548,7 +547,7 @@ function showFsHint() {
 }
 
 function updateTheater() {
-  const on = landscapeMQ.matches && !theaterDismissed && !playerWrap.hidden && panel.classList.contains('open');
+  const on = landscapeMQ.matches && !playerWrap.hidden && panel.classList.contains('open');
   const was = document.body.classList.contains('theater');
   document.body.classList.toggle('theater', on);
   fsBtn.hidden = playerWrap.hidden || !canNativeFs();
@@ -566,7 +565,7 @@ function updateTheater() {
   }
 }
 
-const onOrientation = () => { theaterDismissed = false; updateTheater(); };
+const onOrientation = () => updateTheater();
 if (landscapeMQ.addEventListener) landscapeMQ.addEventListener('change', onOrientation);
 else landscapeMQ.addListener(onOrientation);
 
@@ -594,9 +593,5 @@ playerWrap.addEventListener('click', e => {
 });
 
 fsBtn.addEventListener('click', () => { if (fsElement()) exitNativeFs(); else enterNativeFs(); });
-// Back to the channel list while the phone stays sideways.
-backBtn.addEventListener('click', () => {
-  theaterDismissed = true;
-  exitNativeFs();
-  updateTheater();
-});
+// Close: stops the stream and leaves the page exactly as it was (same country, same list position).
+closePlayerBtn.addEventListener('click', stopPlayer);

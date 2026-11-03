@@ -591,7 +591,7 @@ body:has(#panel.open) .banner { display: none; }
    body.theater : phone turned sideways while a channel plays (set by js/panel.js)
    body.is-fs   : the browser is in real full screen
    body.ui-on   : controls are visible (touch shows them for 3 seconds) */
-.fs-btn, .back-btn {
+.fs-btn {
   flex: none;
   height: 30px;
   padding: 0 9px;
@@ -607,7 +607,6 @@ body:has(#panel.open) .banner { display: none; }
 }
 .fs-btn { display: inline-flex; }
 .fs-btn[hidden] { display: none; }
-.back-btn { display: none; font-size: 1.1rem; }
 .fs-hint {
   display: none;
   position: absolute;
@@ -692,9 +691,8 @@ body.theater.ui-on .player-bar,
 body.is-fs.ui-on .player-bar { opacity: 1; pointer-events: auto; }
 body.theater .player-title,
 body.is-fs .player-title { margin-top: 0; flex: 1; text-shadow: 0 1px 4px #000; }
-body.theater .back-btn { display: inline-flex; }
 body.theater .zap-btn, body.is-fs .zap-btn { width: 40px; height: 34px; }
-body.theater .fs-btn, body.theater .back-btn, body.is-fs .fs-btn,
+body.theater .fs-btn, body.is-fs .fs-btn,
 body.theater .cast-btn, body.is-fs .cast-btn { height: 34px; }
 
 /* Official embedded players take the touches themselves: keep a small control strip visible. */
@@ -723,3 +721,36 @@ body.is-fs .player-msg {
   text-shadow: 0 1px 4px #000;
   pointer-events: none;
 }
+
+/* Small "Close" pill over the top-left corner of the video */
+.player-wrap { position: relative; }
+.close-player {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 5;
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+body.theater .close-player,
+body.is-fs .close-player {
+  top: 10px;
+  left: max(16px, env(safe-area-inset-left));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+body.theater.ui-on .close-player,
+body.is-fs.ui-on .close-player,
+body.embed-on.theater .close-player,
+body.embed-on.is-fs .close-player { opacity: 1; pointer-events: auto; }
+/* the control strip starts after the Close pill */
+body.theater .player-bar, body.is-fs .player-bar { padding-left: calc(max(16px, env(safe-area-inset-left)) + 90px); }
+body.embed-on.theater .player-bar, body.embed-on.is-fs .player-bar { left: 96px; padding: 6px; }

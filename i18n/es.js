@@ -31,7 +31,7 @@ window.I18N.es = {
   nextChannel: 'Canal siguiente',
   fullscreen: 'Pantalla completa',
   tapFullscreen: 'Toca para pantalla completa',
-  backToList: 'Lista de canales',
+  closePlayer: 'Cerrar',
   close: 'Cerrar',
   language: 'Idioma',
   categories: {

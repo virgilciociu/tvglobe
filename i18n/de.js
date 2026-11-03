@@ -31,7 +31,7 @@ window.I18N.de = {
   nextChannel: 'Nächster Sender',
   fullscreen: 'Vollbild',
   tapFullscreen: 'Tippen für Vollbild',
-  backToList: 'Senderliste',
+  closePlayer: 'Schließen',
   close: 'Schließen',
   language: 'Sprache',
   categories: {

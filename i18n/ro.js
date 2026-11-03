@@ -31,7 +31,7 @@ window.I18N.ro = {
   nextChannel: 'Canalul următor',
   fullscreen: 'Ecran complet',
   tapFullscreen: 'Atinge pentru ecran complet',
-  backToList: 'Lista de canale',
+  closePlayer: 'Închide',
   close: 'Închide',
   language: 'Limba',
   categories: {
