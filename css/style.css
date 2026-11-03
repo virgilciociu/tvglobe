@@ -445,3 +445,46 @@ body {
 }
 @media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
 body:has(#panel.open) .banner { display: none; }
+
+/* --- Phone: expandable panel with the player pinned at the top --- */
+.panel-scroll { display: contents; }
+
+@media (max-width: 700px) {
+  .panel {
+    z-index: 12;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 45vh;
+    height: 45dvh;
+    padding-bottom: 0;
+    background: rgba(8, 40, 110, 0.97);
+    transition: transform 0.5s ease, height 0.3s ease;
+  }
+  .panel.expanded {
+    height: 100vh;
+    height: 100dvh;
+  }
+  .panel > * { flex: none; }
+  .panel-scroll {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    margin: 0 calc(-1 * clamp(12px, 2vw, 22px));
+    padding: 0 clamp(12px, 2vw, 22px) 24px;
+  }
+  .panel-scroll .channels-sticky {
+    top: 0;
+    margin: 8px calc(-1 * clamp(12px, 2vw, 22px)) 8px;
+    background: rgb(8, 40, 110);
+  }
+  .panel.expanded .panel-time-row { display: none !important; }
+  .panel.expanded .panel-header { margin-top: 4px; }
+  .panel.expanded .player-wrap { margin-top: 8px; }
+  body:has(#panel.open) .lang-select,
+  body:has(#panel.open) .library-btn { display: none; }
+  body:has(#panel.expanded) .topnav { display: none; }
+}

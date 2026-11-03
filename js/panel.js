@@ -4,6 +4,7 @@ const panel = document.getElementById('panel');
 const panelFlag = document.getElementById('panel-flag');
 const panelName = document.getElementById('panel-name');
 const panelTimeRow = document.getElementById('panel-time-row');
+const panelTimeLabel = document.getElementById('panel-time-label');
 const panelTime = document.getElementById('panel-time');
 const panelDate = document.getElementById('panel-date');
 const panelClose = document.getElementById('panel-close');
@@ -37,6 +38,14 @@ function countryCode(country) {
   const p = country.properties;
   const valid = c => (c && c !== '-99' ? c : null);
   return valid(p.ISO_A2) || valid(p.ISO_A2_EH) || NAME_CODES[p.NAME || p.ADMIN] || null;
+}
+
+// Territories without a capital city: the label says only "official time".
+const NO_CAPITAL = ['AQ', 'TF'];
+
+function updateTimeLabel() {
+  const noCapital = currentCode && NO_CAPITAL.includes(currentCode);
+  panelTimeLabel.textContent = t(noCapital ? 'officialTime' : 'localTime');
 }
 
 function countryTimeZone(country) {
@@ -264,6 +273,7 @@ channelSearch.addEventListener('input', renderChannels);
 // --- Open / close ---------------------------------------------------------
 
 function openPanel(country) {
+  setExpanded(false);
   const code = countryCode(country);
   currentCountry = country;
   currentCode = code;
@@ -277,6 +287,7 @@ function openPanel(country) {
   }
 
   currentTimeZone = countryTimeZone(country);
+  updateTimeLabel();
   panelTimeRow.style.display = currentTimeZone ? '' : 'none';
 
   clearInterval(clockTimer);
@@ -298,6 +309,7 @@ function closePanel() {
   currentCountry = null;
   currentCode = null;
   panel.classList.remove('open');
+  setExpanded(false);
   clearInterval(clockTimer);
   currentTimeZone = null;
   stopPlayer();
@@ -310,6 +322,7 @@ panelClose.addEventListener('click', () => {
 // Called by i18n.js when the language changes.
 function onLanguageChange() {
   renderLibrary();
+  updateTimeLabel();
   if (!currentCountry) return;
   const code = countryCode(currentCountry);
   panelName.textContent = displayCountry(code) || currentCountry.properties.NAME || currentCountry.properties.ADMIN;
@@ -321,3 +334,29 @@ function onLanguageChange() {
     embedLink.textContent = t('openOfficial') + ' ↗';
   }
 }
+
+// --- Phone: the panel grows to full screen when the channel list is scrolled.
+// The player stays pinned at the top; only the channel list scrolls.
+const panelScroll = document.getElementById('panel-scroll');
+const channelSearchInput = document.getElementById('channel-search');
+const isPhoneLayout = () => window.innerWidth <= 700;
+
+function setExpanded(on) {
+  const next = on && isPhoneLayout();
+  if (panel.classList.contains('expanded') === next) return;
+  panel.classList.toggle('expanded', next);
+  if (!next) panelScroll.scrollTop = 0;
+}
+
+let touchStartY = null;
+panel.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+panel.addEventListener('touchmove', e => {
+  if (touchStartY === null || !isPhoneLayout()) return;
+  const dy = touchStartY - e.touches[0].clientY;
+  if (dy > 24) setExpanded(true);
+  else if (dy < -60 && panelScroll.scrollTop <= 0) setExpanded(false);
+}, { passive: true });
+panel.addEventListener('touchend', () => { touchStartY = null; }, { passive: true });
+panelScroll.addEventListener('scroll', () => { if (panelScroll.scrollTop > 0) setExpanded(true); }, { passive: true });
+channelSearchInput.addEventListener('focus', () => setExpanded(true));
+window.addEventListener('resize', () => { if (!isPhoneLayout()) setExpanded(false); });
