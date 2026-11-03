@@ -1,0 +1,35 @@
+window.I18N = window.I18N || {};
+window.I18N.de = {
+  navGlobe: 'Globe',
+  navInfo: 'Info',
+  libraryBtn: 'Favoriten & Verlauf',
+  bannerTitle: 'Im Aufbau',
+  bannerText: 'Bald kannst du die Sender, die du jetzt auf dem Handy schaust, direkt auf deinen Fernseher senden. Bleib dran!',
+  favorites: 'Favoriten',
+  history: 'Verlauf',
+  clearHistory: 'Verlauf löschen',
+  noFavorites: 'Noch keine Favoriten. Tippe auf den Stern neben einem Sender.',
+  noHistory: 'Noch keine Sender angesehen.',
+  addFavorite: 'Zu Favoriten hinzufügen',
+  removeFavorite: 'Aus Favoriten entfernen',
+  officialTime: 'Offizielle Zeit',
+  localTime: 'Offizielle Zeit (Hauptstadt)',
+  channels: 'Sender',
+  search: 'Sender suchen',
+  noChannels: 'Für dieses Land sind noch keine Fernsehsender enthalten, weil diese Website noch im Aufbau ist.',
+  noResults: 'Kein Sender passt zu deiner Suche.',
+  officialSite: 'Offizielle Website',
+  loading: 'Wird geladen…',
+  playError: 'Dieser Sender kann gerade nicht abgespielt werden.',
+  officialPlayer: 'Offizieller Player',
+  openOfficial: 'Auf der offiziellen Website öffnen',
+  embedHint: 'Wenn der Player nicht lädt, erlaubt dieser Sender keine Einbettung.',
+  close: 'Schließen',
+  language: 'Sprache',
+  categories: {
+    general: 'Allgemein', news: 'Nachrichten', music: 'Musik', movies: 'Filme', sports: 'Sport',
+    religious: 'Religion', kids: 'Kinder', business: 'Wirtschaft', outdoor: 'Outdoor',
+    entertainment: 'Unterhaltung', culture: 'Kultur', comedy: 'Comedy', series: 'Serien',
+    lifestyle: 'Lifestyle', travel: 'Reisen', classic: 'Klassiker'
+  }
+};

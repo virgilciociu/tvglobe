@@ -1,0 +1,80 @@
+window.I18N = window.I18N || {};
+window.I18N.fr = {
+  navGlobe: 'Globe',
+  navInfo: 'Infos',
+  libraryBtn: 'Favoris et historique',
+  bannerTitle: 'En construction',
+  bannerText: 'Bientôt, vous pourrez envoyer sur votre téléviseur les chaînes que vous regardez actuellement sur votre téléphone. Restez à l’écoute !',
+  favorites: 'Favoris',
+  history: 'Historique',
+  clearHistory: 'Effacer l’historique',
+  noFavorites: 'Aucun favori pour l’instant. Touchez l’étoile à côté d’une chaîne.',
+  noHistory: 'Aucune chaîne regardée pour l’instant.',
+  addFavorite: 'Ajouter aux favoris',
+  removeFavorite: 'Retirer des favoris',
+  officialTime: 'Heure officielle',
+  localTime: 'Heure officielle (capitale)',
+  channels: 'Chaînes',
+  search: 'Rechercher une chaîne',
+  noChannels: 'Ce pays n’a pas encore de chaînes de télévision, car ce site est encore en construction.',
+  noResults: 'Aucune chaîne ne correspond à votre recherche.',
+  officialSite: 'Site officiel',
+  loading: 'Chargement…',
+  playError: 'Cette chaîne ne peut pas être lue pour le moment.',
+  officialPlayer: 'Lecteur officiel',
+  openOfficial: 'Ouvrir sur le site officiel',
+  embedHint: 'Si le lecteur ne se charge pas, cette chaîne n’autorise pas l’intégration.',
+  close: 'Fermer',
+  language: 'Langue',
+  categories: {
+    general: 'Généraliste', news: 'Actualités', music: 'Musique', movies: 'Films', sports: 'Sport',
+    religious: 'Religion', kids: 'Enfants', business: 'Économie', outdoor: 'Nature',
+    entertainment: 'Divertissement', culture: 'Culture', comedy: 'Humour', series: 'Séries',
+    lifestyle: 'Art de vivre', travel: 'Voyage', classic: 'Classiques'
+  }
+};
+Object.assign(window.I18N.fr, {
+  infoH1: 'À propos de Globe',
+  introP1: 'Globe est un globe 3D en rotation. Choisissez un pays et regardez ses chaînes de télévision dans votre navigateur. Globe n’héberge, n’enregistre et ne copie aucun flux de télévision.',
+
+  sec1Title: 'Trois façons d’ouvrir une chaîne',
+  way1Title: 'Lue directement dans Globe',
+  way1Text: 'La chaîne publie un flux en direct ouvert (HLS). Globe lit ce flux public dans son propre lecteur. Exemples : la télévision publique TVR, de nombreuses télévisions locales et des chaînes musicales.',
+  way2Title: 'Lecteur officiel, affiché dans Globe',
+  way2Text: 'La chaîne est commerciale et ses droits de diffusion sont payants (par exemple Antena 1, Kanal D, Prima News ou Voyo Sport). Globe ne prend pas son flux. Il affiche le site officiel de la chaîne dans un cadre (iframe) : le lecteur officiel, ses publicités, ses conditions et toute connexion restent exactement comme la chaîne le souhaite.',
+  way3Title: 'Lien uniquement',
+  way3Text: 'Certains sites refusent d’être affichés dans une autre page. Dans ce cas, le cadre reste vide et le lien en dessous ouvre le site officiel.',
+
+  sec2Title: 'Pourquoi les chaînes commerciales s’ouvrent sur leurs sites d’origine',
+  why1: 'Les chaînes paient leurs droits de diffusion. Copier leur flux et le rediffuser depuis un autre site sans autorisation est une retransmission non autorisée, même si le flux est techniquement facile d’accès.',
+  why2: 'Avec un lecteur officiel, le spectateur regarde sur la page de la chaîne elle-même. La chaîne garde le contrôle : son lecteur, sa publicité, ses restrictions par pays et son droit de bloquer l’intégration.',
+  why3: 'Globe ne contourne jamais une restriction. Si une chaîne ne veut pas être affichée dans Globe, elle peut le bloquer (voir « Pourquoi certaines chaînes ne se chargent pas » ci-dessous) et Globe le respecte.',
+
+  sec3Title: 'Détails techniques',
+  tech1: 'Les données des chaînes proviennent des listes publiques iptv-org (chaînes, flux et liste de blocage). Les chaînes bloquées, fermées ou pour adultes sont exclues.',
+  tech2: 'Seuls les flux HTTPS au format HLS (.m3u8) sont utilisés. Les navigateurs ne peuvent pas lire directement d’autres formats, et une page HTTPS n’a pas le droit de charger des flux HTTP simples (contenu mixte).',
+  tech3: 'Chaque flux est testé avant d’entrer dans la liste : le serveur doit répondre, renvoyer une liste de lecture valide (commençant par #EXTM3U) et autoriser l’accès depuis une page web (CORS). Les flux morts sont supprimés. La liste est un instantané : une chaîne peut cesser de fonctionner plus tard.',
+  tech4: 'Les flux provenant des serveurs d’une plateforme commerciale (par exemple le réseau Antena Play), ou contenant un jeton d’accès, ne sont pas lus par Globe. Ces chaînes sont affichées comme lecteurs officiels.',
+  tech5: 'La lecture utilise hls.js (Media Source Extensions). Safari et les iPhone lisent le HLS nativement. Si un flux ne démarre pas en 15 secondes, Globe essaie une adresse de secours, et sinon affiche un message.',
+  tech6: 'Les lecteurs officiels sont affichés dans une iframe avec restrictions (sandbox) : les scripts, formulaires et fenêtres contextuelles sont autorisés pour que le lecteur fonctionne, mais la page intégrée ne peut ni prendre le contrôle de Globe ni le rediriger. La lecture automatique et le plein écran sont autorisés. Les adresses en http:// sont converties en https://.',
+  tech7: 'Le globe est dessiné avec WebGL (globe.gl et three.js) à partir des formes de pays de Natural Earth. L’heure officielle utilise l’API Intl du navigateur et le fuseau horaire IANA du pays ; pour les pays à plusieurs fuseaux, celui de la capitale est utilisé. Les drapeaux viennent de flagcdn.com.',
+  tech8: 'La langue est prise dans les réglages du téléphone ou du navigateur (anglais, allemand, roumain, français ou espagnol ; anglais si la vôtre n’est pas disponible). Vous pouvez la changer avec le sélecteur ; votre choix est enregistré dans votre navigateur.',
+
+  sec4Title: 'Pourquoi certaines chaînes ne se chargent pas',
+  fail1: 'Le site envoie X-Frame-Options, ou une Content-Security-Policy avec frame-ancestors, qui indique au navigateur de ne pas l’afficher dans d’autres pages.',
+  fail2: 'Géoblocage : de nombreux flux et lecteurs ne fonctionnent que dans le pays de la chaîne.',
+  fail3: 'Accès payant ou connexion : les services payants comme Voyo Sport nécessitent un abonnement.',
+  fail4: 'Les bandeaux de cookies, publicités ou scripts du site officiel peuvent bloquer le lecteur tant que vous n’acceptez pas ou n’interagissez pas.',
+  fail5: 'Le flux a été déplacé, arrêté ou supprimé par son propriétaire.',
+
+  sec5Title: 'Confidentialité',
+  privacy1: 'Globe n’a ni compte, ni analyse d’audience, ni publicité. La seule chose enregistrée dans votre navigateur est votre choix de langue.',
+  privacy2: 'Votre navigateur contacte directement des tiers : bibliothèques de code (unpkg et jsDelivr), formes des pays (GitHub), drapeaux (flagcdn.com), serveurs de flux des chaînes, et sites officiels lorsque vous ouvrez un lecteur officiel. Leurs propres cookies et règles publicitaires s’appliquent alors.',
+
+  sec6Title: 'Chaînes dans cette version',
+  channelsIntro: 'Généré à partir de la liste actuelle des chaînes.',
+  countryLine: '{country} : {direct} lues directement, {official} lecteurs officiels',
+  officialNames: 'Lecteurs officiels :',
+
+  dedication: 'Ce site a été créé par Virgil C, en mémoire de M. I. Roth, mon voisin.'
+});

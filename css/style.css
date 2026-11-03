@@ -1,0 +1,447 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: radial-gradient(circle at center, #2f7be0 0%, #1556b8 100%);
+  color: #ffffff;
+  font-family: system-ui, sans-serif;
+}
+
+#globe {
+  position: fixed;
+  inset: 0;
+}
+
+/* --- Side panel --- */
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(230px, 32vw, 340px);
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: clamp(14px, 2.5vw, 24px) clamp(12px, 2vw, 22px);
+  background: rgba(8, 40, 110, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+  overflow-y: auto;
+}
+
+.panel.open {
+  transform: translateX(0);
+}
+
+.panel-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.panel-flag {
+  width: clamp(32px, 4.5vw, 48px);
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+}
+
+.panel-time-row {
+  margin-top: 24px;
+}
+
+.panel-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.panel-time {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-date {
+  opacity: 0.85;
+  text-transform: capitalize;
+}
+
+/* --- Player & channel list --- */
+.player-wrap {
+  margin-top: 18px;
+}
+
+.player-wrap[hidden] {
+  display: none;
+}
+
+#player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 6px;
+  display: block;
+}
+
+.embed-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 6px;
+  background: #000;
+  display: block;
+}
+
+.embed-frame[hidden],
+.embed-note[hidden],
+#player[hidden] {
+  display: none;
+}
+
+.embed-note {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.embed-note a {
+  display: block;
+  margin-top: 4px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.player-msg {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.player-title {
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.channels-title {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.channel-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  margin-bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.channel-search::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.channels-empty {
+  margin: 8px 0;
+  opacity: 0.85;
+}
+
+.channel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.channel-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: #ffffff;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.channel-main:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.channel.playing > .channel-main {
+  background: rgba(255, 179, 0, 0.3);
+}
+
+.channel.link-only > .channel-main {
+  opacity: 0.8;
+}
+
+.channel-tag {
+  font-size: 0.72rem;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* Phones: panel becomes a bottom sheet */
+@media (max-width: 700px) {
+  .panel {
+    top: auto;
+    left: 0;
+    width: 100%;
+    height: 45vh;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(100%);
+  }
+  .panel.open {
+    transform: translateY(0);
+  }
+}
+
+/* --- Favorites & history --- */
+.fav-btn {
+  flex: none;
+  padding: 6px 8px;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fav-btn:hover,
+.fav-btn.active {
+  color: #ffc107;
+}
+
+.library-btn {
+  position: fixed;
+  left: 150px;
+  bottom: 16px;
+  z-index: 20;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  background: rgba(8, 40, 110, 0.6);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.library {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 15;
+  width: clamp(250px, 30vw, 320px);
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 58px 14px 70px;
+  background: rgba(8, 40, 110, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  overflow-y: auto;
+}
+
+.library.open {
+  transform: translateX(0);
+}
+
+.library-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.library-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.library-tabs button {
+  flex: 1;
+  padding: 8px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: none;
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.library-tabs button.active {
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.library-clear {
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: none;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.library-empty {
+  margin: 8px 0;
+  opacity: 0.85;
+}
+
+.library-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.library-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.library-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: #ffffff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.library-open:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.library-flag {
+  width: 28px;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+  flex: none;
+}
+
+.library-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.library-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.library-country {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Notice shown when a country has no channels yet */
+.channels-empty.notice {
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  line-height: 1.45;
+}
+
+/* The title and the search box stay at the top of the panel while the channel list scrolls. */
+.channels-sticky {
+  position: sticky;
+  top: calc(-1 * clamp(14px, 2.5vw, 24px));
+  z-index: 5;
+  margin: 18px calc(-1 * clamp(12px, 2vw, 22px)) 8px;
+  padding: 10px clamp(12px, 2vw, 22px) 10px;
+  background: rgba(8, 40, 110, 0.97);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Pulsing "under construction" announcement */
+.banner {
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: min(92vw, 720px);
+  text-align: center;
+  pointer-events: none;
+  color: #fff;
+  text-shadow: 0 0 8px #9fd0ff, 0 0 22px #4da3ff, 0 0 40px #1e7bff;
+  animation: banner-pulse 2.4s ease-in-out infinite;
+}
+.banner strong { display: block; font-size: clamp(22px, 5vw, 40px); letter-spacing: .04em; text-transform: uppercase; }
+.banner span { display: block; margin-top: 6px; font-size: clamp(14px, 2.6vw, 20px); font-weight: 600; }
+@keyframes banner-pulse {
+  0%, 100% { opacity: .55; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
+body:has(#panel.open) .banner { display: none; }

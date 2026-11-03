@@ -1,0 +1,35 @@
+window.I18N = window.I18N || {};
+window.I18N.ro = {
+  navGlobe: 'Globe',
+  navInfo: 'Informații',
+  libraryBtn: 'Favorite și istoric',
+  bannerTitle: 'Pagină în lucru',
+  bannerText: 'În curând vei putea trimite pe televizor canalele pe care le vezi acum doar pe telefon. Rămâi aproape!',
+  favorites: 'Favorite',
+  history: 'Istoric',
+  clearHistory: 'Șterge istoricul',
+  noFavorites: 'Nu ai încă favorite. Apasă steaua de lângă un canal.',
+  noHistory: 'Nu ai urmărit încă niciun canal.',
+  addFavorite: 'Adaugă la favorite',
+  removeFavorite: 'Elimină din favorite',
+  officialTime: 'Ora oficială',
+  localTime: 'Ora oficială (capitala)',
+  channels: 'Canale',
+  search: 'Caută canale',
+  noChannels: 'Această țară nu are încă canale TV incluse, deoarece acest website este încă în construcție.',
+  noResults: 'Niciun canal nu corespunde căutării.',
+  officialSite: 'Site oficial',
+  loading: 'Se încarcă…',
+  playError: 'Acest canal nu poate fi redat acum.',
+  officialPlayer: 'Player oficial',
+  openOfficial: 'Deschide pe site-ul oficial',
+  embedHint: 'Dacă playerul nu se încarcă, acest canal nu permite încorporarea.',
+  close: 'Închide',
+  language: 'Limba',
+  categories: {
+    general: 'General', news: 'Știri', music: 'Muzică', movies: 'Filme', sports: 'Sport',
+    religious: 'Religie', kids: 'Copii', business: 'Business', outdoor: 'Aer liber',
+    entertainment: 'Divertisment', culture: 'Cultură', comedy: 'Comedie', series: 'Seriale',
+    lifestyle: 'Lifestyle', travel: 'Călătorii', classic: 'Clasic'
+  }
+};

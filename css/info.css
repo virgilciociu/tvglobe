@@ -1,0 +1,84 @@
+html {
+  background: #1556b8;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body.info-page {
+  background: linear-gradient(180deg, #2f7be0 0%, #1556b8 60%, #0f3f94 100%) fixed;
+  color: #ffffff;
+  font-family: system-ui, sans-serif;
+  line-height: 1.55;
+}
+
+.info {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 72px 20px 90px;
+}
+
+.info h1 {
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  margin: 10px 0 12px;
+}
+
+.info h2 {
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  margin: 38px 0 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.info h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.info p {
+  margin: 0 0 10px;
+}
+
+.info ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.info li {
+  margin-bottom: 10px;
+}
+
+.card {
+  background: rgba(8, 40, 110, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+  margin-bottom: 2px;
+}
+
+.summary-names {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.dedication {
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  font-style: italic;
+  text-align: center;
+}

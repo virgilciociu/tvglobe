@@ -1,0 +1,35 @@
+window.I18N = window.I18N || {};
+window.I18N.en = {
+  navGlobe: 'Globe',
+  navInfo: 'Info',
+  libraryBtn: 'Favorites & history',
+  bannerTitle: 'Under construction',
+  bannerText: 'Soon you will be able to send the channels you now watch on your phone straight to your TV. Stay tuned!',
+  favorites: 'Favorites',
+  history: 'History',
+  clearHistory: 'Clear history',
+  noFavorites: 'No favorites yet. Tap the star next to a channel.',
+  noHistory: 'No channels watched yet.',
+  addFavorite: 'Add to favorites',
+  removeFavorite: 'Remove from favorites',
+  officialTime: 'Official time',
+  localTime: 'Official time (capital)',
+  channels: 'Channels',
+  search: 'Search channels',
+  noChannels: 'This country has no TV channels included yet, because this website is still under construction.',
+  noResults: 'No channel matches your search.',
+  officialSite: 'Official site',
+  loading: 'Loading…',
+  playError: 'This channel cannot be played right now.',
+  officialPlayer: 'Official player',
+  openOfficial: 'Open on the official site',
+  embedHint: 'If the player does not load, this channel does not allow embedding.',
+  close: 'Close',
+  language: 'Language',
+  categories: {
+    general: 'General', news: 'News', music: 'Music', movies: 'Movies', sports: 'Sports',
+    religious: 'Religion', kids: 'Kids', business: 'Business', outdoor: 'Outdoor',
+    entertainment: 'Entertainment', culture: 'Culture', comedy: 'Comedy', series: 'Series',
+    lifestyle: 'Lifestyle', travel: 'Travel', classic: 'Classic'
+  }
+};
