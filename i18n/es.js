@@ -29,6 +29,9 @@ window.I18N.es = {
   myCountry: 'Mi país',
   prevChannel: 'Canal anterior',
   nextChannel: 'Canal siguiente',
+  fullscreen: 'Pantalla completa',
+  tapFullscreen: 'Toca para pantalla completa',
+  backToList: 'Lista de canales',
   close: 'Cerrar',
   language: 'Idioma',
   categories: {

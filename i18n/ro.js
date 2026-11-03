@@ -29,6 +29,9 @@ window.I18N.ro = {
   myCountry: 'Țara mea',
   prevChannel: 'Canalul anterior',
   nextChannel: 'Canalul următor',
+  fullscreen: 'Ecran complet',
+  tapFullscreen: 'Atinge pentru ecran complet',
+  backToList: 'Lista de canale',
   close: 'Închide',
   language: 'Limba',
   categories: {

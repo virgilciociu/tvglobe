@@ -161,6 +161,8 @@ castBtn.addEventListener('click', () => {
 
 function stopPlayer() {
   destroyHls();
+  exitNativeFs();
+  document.body.classList.remove('embed-on');
   setCastVisible(false);
   embedFrame.hidden = true;
   embedFrame.src = 'about:blank';
@@ -173,6 +175,7 @@ function stopPlayer() {
   showPlayerMessage('');
   playingId = null;
   markPlaying();
+  updateTheater();
 }
 
 let playerMsgKey = '';
@@ -290,6 +293,8 @@ function playChannel(channel) {
     playerEl.hidden = false;
     playUrl(channel.urls, 0);
   }
+  document.body.classList.toggle('embed-on', !!channel.restricted);
+  updateTheater();
   playerWrap.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
@@ -483,3 +488,115 @@ function zap(step) {
 }
 document.getElementById('zap-prev').addEventListener('click', () => zap(-1));
 document.getElementById('zap-next').addEventListener('click', () => zap(1));
+
+
+// --- Landscape = theater mode, plus real full screen --------------------------
+// 1. Phone turned sideways while a channel plays: the player fills the screen (pure CSS
+//    layout, works everywhere, no user gesture needed).
+// 2. One tap in that mode asks the browser for real full screen (needs a gesture).
+// 3. A full-screen button does the same for people whose phone rotation is locked.
+const fsBtn = document.getElementById('fs-btn');
+const backBtn = document.getElementById('back-btn');
+const fsHint = document.getElementById('fs-hint');
+const landscapeMQ = window.matchMedia('(orientation: landscape) and (max-height: 500px)');
+let uiTimer = null;
+let hintTimer = null;
+let autoFsTried = false;
+let theaterDismissed = false;
+
+const fsElement = () => document.fullscreenElement || document.webkitFullscreenElement || null;
+
+function canNativeFs() {
+  if (playerWrap.requestFullscreen || playerWrap.webkitRequestFullscreen) return true;
+  // iPhone: only the <video> element can go full screen.
+  return !playerEl.hidden && !!playerEl.webkitEnterFullscreen;
+}
+
+function enterNativeFs() {
+  if (fsElement()) return;
+  try {
+    const req = playerWrap.requestFullscreen || playerWrap.webkitRequestFullscreen;
+    if (req) {
+      const lock = () => {
+        if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {});
+      };
+      const p = req.call(playerWrap);
+      if (p && p.then) p.then(lock).catch(() => {}); else lock();
+    } else if (!playerEl.hidden && playerEl.webkitEnterFullscreen) {
+      playerEl.webkitEnterFullscreen();
+    }
+  } catch (e) { /* not allowed right now (no user gesture, or no metadata yet) */ }
+}
+
+function exitNativeFs() {
+  if (!fsElement()) return;
+  const exit = document.exitFullscreen || document.webkitExitFullscreen;
+  try { const p = exit.call(document); if (p && p.catch) p.catch(() => {}); } catch (e) { /* ignore */ }
+}
+
+// Controls over the video: shown on touch, hidden after 3 seconds.
+function pokeUi() {
+  document.body.classList.add('ui-on');
+  clearTimeout(uiTimer);
+  uiTimer = setTimeout(() => document.body.classList.remove('ui-on'), 3000);
+}
+
+function showFsHint() {
+  fsHint.classList.add('show');
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => fsHint.classList.remove('show'), 3500);
+}
+
+function updateTheater() {
+  const on = landscapeMQ.matches && !theaterDismissed && !playerWrap.hidden && panel.classList.contains('open');
+  const was = document.body.classList.contains('theater');
+  document.body.classList.toggle('theater', on);
+  fsBtn.hidden = playerWrap.hidden || !canNativeFs();
+  if (!embedFrame.hidden) fsHint.classList.remove('show'); // official players take the taps themselves
+  if (on === was) return;
+  // The globe is hidden behind the video: stop drawing it to save battery.
+  if (typeof globe !== 'undefined' && globe.pauseAnimation) on ? globe.pauseAnimation() : globe.resumeAnimation();
+  if (on) {
+    autoFsTried = false;
+    pokeUi();
+    if (!embedFrame.hidden || !canNativeFs()) return;
+    showFsHint();
+  } else {
+    fsHint.classList.remove('show');
+  }
+}
+
+const onOrientation = () => { theaterDismissed = false; updateTheater(); };
+if (landscapeMQ.addEventListener) landscapeMQ.addEventListener('change', onOrientation);
+else landscapeMQ.addListener(onOrientation);
+
+function onFullscreenChange() {
+  const on = !!fsElement();
+  document.body.classList.toggle('is-fs', on);
+  if (on) {
+    fsHint.classList.remove('show');
+    pokeUi();
+  } else if (screen.orientation && screen.orientation.unlock) {
+    try { screen.orientation.unlock(); } catch (e) { /* ignore */ }
+  }
+}
+document.addEventListener('fullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+playerWrap.addEventListener('pointerdown', pokeUi, { passive: true });
+playerWrap.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') pokeUi(); }, { passive: true });
+// First tap in theater mode = the user gesture that real full screen needs (tried once per rotation).
+playerWrap.addEventListener('click', e => {
+  if (!document.body.classList.contains('theater') || fsElement() || autoFsTried) return;
+  if (e.target.closest('.player-bar')) return;
+  autoFsTried = true;
+  enterNativeFs();
+});
+
+fsBtn.addEventListener('click', () => { if (fsElement()) exitNativeFs(); else enterNativeFs(); });
+// Back to the channel list while the phone stays sideways.
+backBtn.addEventListener('click', () => {
+  theaterDismissed = true;
+  exitNativeFs();
+  updateTheater();
+});

@@ -586,3 +586,140 @@ body:has(#panel.open) .banner { display: none; }
   line-height: 1;
   cursor: pointer;
 }
+
+/* --- Landscape "theater" mode and full screen ---
+   body.theater : phone turned sideways while a channel plays (set by js/panel.js)
+   body.is-fs   : the browser is in real full screen
+   body.ui-on   : controls are visible (touch shows them for 3 seconds) */
+.fs-btn, .back-btn {
+  flex: none;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.fs-btn { display: inline-flex; }
+.fs-btn[hidden] { display: none; }
+.back-btn { display: none; font-size: 1.1rem; }
+.fs-hint {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 68px;
+  z-index: 4;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+body.theater .fs-hint { display: block; }
+.fs-hint.show { opacity: 1; }
+
+body.theater .topnav,
+body.theater .country-search,
+body.theater .lang-select,
+body.theater .library-btn,
+body.theater .library,
+body.theater .banner,
+body.theater .panel-close,
+body.theater .panel-header,
+body.theater .panel-time-row,
+body.theater .panel-scroll,
+body.theater .embed-note,
+body.is-fs .embed-note { display: none !important; }
+
+body.theater .panel {
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: #000;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transform: none;
+  transition: none;
+  overflow: hidden;
+  z-index: 40;
+}
+body.theater .player-wrap { position: absolute; inset: 0; margin: 0; background: #000; }
+
+body.theater #player,
+body.is-fs #player,
+body.theater .embed-frame,
+body.is-fs .embed-frame {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+body.theater .player-bar,
+body.is-fs .player-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  padding: 10px max(16px, env(safe-area-inset-right)) 14px max(16px, env(safe-area-inset-left));
+  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+body.theater.ui-on .player-bar,
+body.is-fs.ui-on .player-bar { opacity: 1; pointer-events: auto; }
+body.theater .player-title,
+body.is-fs .player-title { margin-top: 0; flex: 1; text-shadow: 0 1px 4px #000; }
+body.theater .back-btn { display: inline-flex; }
+body.theater .zap-btn, body.is-fs .zap-btn { width: 40px; height: 34px; }
+body.theater .fs-btn, body.theater .back-btn, body.is-fs .fs-btn,
+body.theater .cast-btn, body.is-fs .cast-btn { height: 34px; }
+
+/* Official embedded players take the touches themselves: keep a small control strip visible. */
+body.embed-on.theater .player-bar,
+body.embed-on.is-fs .player-bar {
+  right: auto;
+  padding: 6px;
+  background: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+body.embed-on.theater .player-title,
+body.embed-on.is-fs .player-title { display: none; }
+
+body.theater .player-msg,
+body.is-fs .player-msg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  z-index: 2;
+  margin: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 1rem;
+  text-shadow: 0 1px 4px #000;
+  pointer-events: none;
+}

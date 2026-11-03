@@ -29,6 +29,9 @@ window.I18N.en = {
   myCountry: 'My country',
   prevChannel: 'Previous channel',
   nextChannel: 'Next channel',
+  fullscreen: 'Full screen',
+  tapFullscreen: 'Tap for full screen',
+  backToList: 'Channel list',
   close: 'Close',
   language: 'Language',
   categories: {
