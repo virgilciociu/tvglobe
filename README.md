@@ -7,7 +7,8 @@ Hobby project: no ads, no tracking, nothing hosted by the author.
 ## Features
 
 - Rotating 3D globe (globe.gl / three.js) with automatic zoom to the selected country
-- Day and night in real time: the night side of the globe is shaded by the current position of the sun (updated every minute)
+- Day and night in real time: the night side of the globe is shaded by the current position of the sun, with a warm sunset edge (updated every minute)
+- Night sky: twinkling stars, shooting stars and a slightly darker sky at night, following the local time of the selected country
 - Official time and date of the capital (IANA time zones)
 - Channel list per country, with search, favorites (with flags) and history
 - Public streams play directly (hls.js)
@@ -36,7 +37,7 @@ Works on GitHub Pages as-is (Settings > Pages > deploy from branch `main`, folde
 ## Project layout
 
 - `index.html`, `info.html` - the two pages
-- `js/` - globe, day/night layer, panel, favorites/history, translations logic
+- `js/` - globe, day/night layer, night sky, panel, favorites/history, translations logic
 - `i18n/` - interface texts (en, de, ro)
 - `data/channels.js` - channel lists; `data/timezones.js` - country time zones
 - `scripts/` - channel list builder

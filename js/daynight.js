@@ -6,8 +6,8 @@
   'use strict';
 
   const W = 2048, H = 1024;       // texture size
-  const NIGHT = 0.4;              // brightness on the dark side (1 = same as day)
-  const TWILIGHT = 0.1;           // softness of the edge, as sin(sun height)
+  const NIGHT = 0.32;             // brightness on the dark side (1 = same as day)
+  const TWILIGHT = 0.22;          // width of the soft edge, as sin(sun height): a wide shadow
   const OCEAN = '#0f3f94';
   const LAND = '#8ec1ff';
   const RAD = Math.PI / 180;
@@ -71,13 +71,15 @@
       const sl = Math.sin(lat) * sd, cl = Math.cos(lat) * cd;
       let i = y * W * 4;
       for (let x = 0; x < W; x++, i += 4) {
-        let f = (sl + cl * colCos[x] + TWILIGHT) / (2 * TWILIGHT);
+        const s = sl + cl * colCos[x];                  // sin(sun height) at this pixel
+        let f = (s + TWILIGHT) / (2 * TWILIGHT);
         f = f < 0 ? 0 : f > 1 ? 1 : f;
         f = f * f * (3 - 2 * f);
         const k = NIGHT + (1 - NIGHT) * f;
-        out[i] = base[i] * k * (0.8 + 0.2 * f);       // a little blue at night
-        out[i + 1] = base[i + 1] * k * (0.9 + 0.1 * f);
-        out[i + 2] = base[i + 2] * k;
+        const rim = Math.exp(-(s * s) / 0.0072) * 0.6;   // warm sunset glow along the line between day and night
+        out[i] = base[i] * k * (0.8 + 0.2 * f) + 150 * rim;      // a little blue at night
+        out[i + 1] = base[i + 1] * k * (0.9 + 0.1 * f) + 62 * rim;
+        out[i + 2] = base[i + 2] * k + 8 * rim;
         out[i + 3] = 255;
       }
     }
