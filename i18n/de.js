@@ -24,6 +24,7 @@ window.I18N.de = {
   officialPlayer: 'Offizieller Player',
   openOfficial: 'Auf der offiziellen Website öffnen',
   embedHint: 'Wenn der Player nicht lädt, erlaubt dieser Sender keine Einbettung.',
+  castToTv: 'Auf TV senden',
   close: 'Schließen',
   language: 'Sprache',
   categories: {

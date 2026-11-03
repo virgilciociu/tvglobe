@@ -89,8 +89,26 @@ function destroyHls() {
   }
 }
 
+// --- Send to TV (AirPlay). Shown only when Safari reports a nearby AirPlay target
+// and a stream is playing directly (official embedded players cannot be sent).
+const castBtn = document.getElementById('cast-btn');
+let airplayAvailable = false;
+
+function setCastVisible(on) {
+  castBtn.hidden = !(on && airplayAvailable && !playerEl.hidden);
+}
+
+if (window.WebKitPlaybackTargetAvailabilityEvent && playerEl.webkitShowPlaybackTargetPicker) {
+  playerEl.addEventListener('webkitplaybacktargetavailabilitychanged', e => {
+    airplayAvailable = e.availability === 'available';
+    setCastVisible(!playerEl.paused || !!playerEl.currentSrc);
+  });
+  castBtn.addEventListener('click', () => playerEl.webkitShowPlaybackTargetPicker());
+}
+
 function stopPlayer() {
   destroyHls();
+  setCastVisible(false);
   embedFrame.hidden = true;
   embedFrame.src = 'about:blank';
   embedNote.hidden = true;
@@ -149,11 +167,13 @@ function playUrl(urls, index) {
 }
 
 playerEl.addEventListener('playing', () => {
+  setCastVisible(true);
   clearTimeout(stallTimer);
   showPlayerMessage('');
 });
 
 function playEmbedded(channel) {
+  setCastVisible(false);
   destroyHls();
   playerEl.pause();
   playerEl.hidden = true;

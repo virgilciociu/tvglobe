@@ -24,6 +24,7 @@ window.I18N.ro = {
   officialPlayer: 'Player oficial',
   openOfficial: 'Deschide pe site-ul oficial',
   embedHint: 'Dacă playerul nu se încarcă, acest canal nu permite încorporarea.',
+  castToTv: 'Trimite pe TV',
   close: 'Închide',
   language: 'Limba',
   categories: {

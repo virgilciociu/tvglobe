@@ -24,6 +24,7 @@ window.I18N.es = {
   officialPlayer: 'Reproductor oficial',
   openOfficial: 'Abrir en el sitio oficial',
   embedHint: 'Si el reproductor no carga, este canal no permite la incrustación.',
+  castToTv: 'Enviar a la TV',
   close: 'Cerrar',
   language: 'Idioma',
   categories: {

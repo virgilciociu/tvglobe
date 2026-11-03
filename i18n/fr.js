@@ -24,6 +24,7 @@ window.I18N.fr = {
   officialPlayer: 'Lecteur officiel',
   openOfficial: 'Ouvrir sur le site officiel',
   embedHint: 'Si le lecteur ne se charge pas, cette chaîne n’autorise pas l’intégration.',
+  castToTv: 'Envoyer sur la TV',
   close: 'Fermer',
   language: 'Langue',
   categories: {

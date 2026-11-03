@@ -24,6 +24,7 @@ window.I18N.en = {
   officialPlayer: 'Official player',
   openOfficial: 'Open on the official site',
   embedHint: 'If the player does not load, this channel does not allow embedding.',
+  castToTv: 'Send to TV',
   close: 'Close',
   language: 'Language',
   categories: {

@@ -488,3 +488,19 @@ body:has(#panel.open) .banner { display: none; }
   body:has(#panel.open) .library-btn { display: none; }
   body:has(#panel.expanded) .topnav { display: none; }
 }
+
+/* Title + "Send to TV" button under the player */
+.player-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.player-bar .player-title { min-width: 0; }
+.cast-btn {
+  flex: none;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.cast-btn[hidden] { display: none; }
