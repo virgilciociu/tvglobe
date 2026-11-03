@@ -30,6 +30,7 @@ window.I18N.es = {
   prevChannel: 'Canal anterior',
   nextChannel: 'Canal siguiente',
   fullscreen: 'Pantalla completa',
+  exitFullscreen: 'Salir',
   tapFullscreen: 'Toca para pantalla completa',
   closePlayer: 'Cerrar',
   close: 'Cerrar',

@@ -30,6 +30,7 @@ window.I18N.ro = {
   prevChannel: 'Canalul anterior',
   nextChannel: 'Canalul următor',
   fullscreen: 'Ecran complet',
+  exitFullscreen: 'Ieși',
   tapFullscreen: 'Atinge pentru ecran complet',
   closePlayer: 'Închide',
   close: 'Închide',

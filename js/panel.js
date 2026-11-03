@@ -162,7 +162,8 @@ castBtn.addEventListener('click', () => {
 function stopPlayer() {
   destroyHls();
   exitNativeFs();
-  document.body.classList.remove('embed-on');
+  forceLandscape = false;
+  document.body.classList.remove('embed-on', 'force-landscape');
   setCastVisible(false);
   embedFrame.hidden = true;
   embedFrame.src = 'about:blank';
@@ -436,6 +437,7 @@ panelClose.addEventListener('click', () => {
 // Called by i18n.js when the language changes.
 function onLanguageChange() {
   renderLibrary();
+  updateFsLabel();
   updateTimeLabel();
   if (!currentCountry) return;
   const code = countryCode(currentCountry);
@@ -511,20 +513,56 @@ function canNativeFs() {
   return !playerEl.hidden && !!playerEl.webkitEnterFullscreen;
 }
 
+// Phone held upright (touch screen, portrait): "tilt mode" can be forced by turning the player 90 degrees.
+const uprightPhoneMQ = window.matchMedia('(pointer: coarse) and (orientation: portrait)');
+let forceLandscape = false;
+
+function setForceLandscape(on) {
+  forceLandscape = on;
+  document.body.classList.toggle('force-landscape', on);
+  updateTheater();
+}
+
+// The "Full screen" button: put the channel in tilt (landscape) mode right away.
+//  - Android / iPad / desktop: browser full screen + landscape lock;
+//  - iPhone: the system video player, which turns to landscape by itself;
+//  - anything else (official embedded players on iPhone, rotation lock refused): turn the player by 90 degrees.
+function enterTilt() {
+  if (fsElement()) return;
+  const upright = uprightPhoneMQ.matches;
+  const fallback = () => { if (upright) setForceLandscape(true); };
+  try {
+    const req = playerWrap.requestFullscreen || playerWrap.webkitRequestFullscreen;
+    if (req) {
+      // In browser full screen the player is already as big as it gets; if the orientation lock is
+      // refused the person simply turns the phone.
+      const lock = () => {
+        if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {});
+      };
+      const p = req.call(playerWrap);
+      if (p && p.then) p.then(lock).catch(fallback); else lock();
+      return;
+    }
+    if (!playerEl.hidden && playerEl.webkitEnterFullscreen) {
+      playerEl.webkitEnterFullscreen();
+      return;
+    }
+  } catch (e) { /* not allowed right now (no metadata yet, no gesture) */ }
+  fallback();
+}
+
+// Already sideways: just ask for the browser's real full screen (no turning needed).
 function enterNativeFs() {
   if (fsElement()) return;
   try {
     const req = playerWrap.requestFullscreen || playerWrap.webkitRequestFullscreen;
     if (req) {
-      const lock = () => {
-        if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {});
-      };
       const p = req.call(playerWrap);
-      if (p && p.then) p.then(lock).catch(() => {}); else lock();
+      if (p && p.catch) p.catch(() => {});
     } else if (!playerEl.hidden && playerEl.webkitEnterFullscreen) {
       playerEl.webkitEnterFullscreen();
     }
-  } catch (e) { /* not allowed right now (no user gesture, or no metadata yet) */ }
+  } catch (e) { /* ignore */ }
 }
 
 function exitNativeFs() {
@@ -547,10 +585,11 @@ function showFsHint() {
 }
 
 function updateTheater() {
-  const on = landscapeMQ.matches && !playerWrap.hidden && panel.classList.contains('open');
+  const on = (landscapeMQ.matches || forceLandscape) && !playerWrap.hidden && panel.classList.contains('open');
   const was = document.body.classList.contains('theater');
   document.body.classList.toggle('theater', on);
-  fsBtn.hidden = playerWrap.hidden || !canNativeFs();
+  fsBtn.hidden = playerWrap.hidden;
+  updateFsLabel();
   if (!embedFrame.hidden) fsHint.classList.remove('show'); // official players take the taps themselves
   if (on === was) return;
   // The globe is hidden behind the video: stop drawing it to save battery.
@@ -565,7 +604,11 @@ function updateTheater() {
   }
 }
 
-const onOrientation = () => updateTheater();
+const onOrientation = () => {
+  if (landscapeMQ.matches) forceLandscape = false; // really sideways now: no need to turn the player
+  document.body.classList.toggle('force-landscape', forceLandscape);
+  updateTheater();
+};
 if (landscapeMQ.addEventListener) landscapeMQ.addEventListener('change', onOrientation);
 else landscapeMQ.addListener(onOrientation);
 
@@ -575,9 +618,13 @@ function onFullscreenChange() {
   if (on) {
     fsHint.classList.remove('show');
     pokeUi();
-  } else if (screen.orientation && screen.orientation.unlock) {
-    try { screen.orientation.unlock(); } catch (e) { /* ignore */ }
+  } else {
+    if (forceLandscape) setForceLandscape(false);
+    if (screen.orientation && screen.orientation.unlock) {
+      try { screen.orientation.unlock(); } catch (e) { /* ignore */ }
+    }
   }
+  updateFsLabel();
 }
 document.addEventListener('fullscreenchange', onFullscreenChange);
 document.addEventListener('webkitfullscreenchange', onFullscreenChange);
@@ -592,6 +639,15 @@ playerWrap.addEventListener('click', e => {
   enterNativeFs();
 });
 
-fsBtn.addEventListener('click', () => { if (fsElement()) exitNativeFs(); else enterNativeFs(); });
+// "Full screen" <-> "Exit" (the label follows the state and the language).
+function updateFsLabel() {
+  const btn = document.getElementById('fs-btn');
+  btn.textContent = t(fsElement() || forceLandscape ? 'exitFullscreen' : 'fullscreen');
+}
+fsBtn.addEventListener('click', () => {
+  if (fsElement() || forceLandscape) { exitNativeFs(); setForceLandscape(false); }
+  else enterTilt();
+  updateFsLabel();
+});
 // Close: stops the stream and leaves the page exactly as it was (same country, same list position).
 closePlayerBtn.addEventListener('click', stopPlayer);

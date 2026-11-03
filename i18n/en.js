@@ -30,6 +30,7 @@ window.I18N.en = {
   prevChannel: 'Previous channel',
   nextChannel: 'Next channel',
   fullscreen: 'Full screen',
+  exitFullscreen: 'Exit',
   tapFullscreen: 'Tap for full screen',
   closePlayer: 'Close',
   close: 'Close',

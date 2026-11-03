@@ -30,6 +30,7 @@ window.I18N.de = {
   prevChannel: 'Vorheriger Sender',
   nextChannel: 'Nächster Sender',
   fullscreen: 'Vollbild',
+  exitFullscreen: 'Zurück',
   tapFullscreen: 'Tippen für Vollbild',
   closePlayer: 'Schließen',
   close: 'Schließen',
