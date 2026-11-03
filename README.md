@@ -68,7 +68,7 @@ If you own a channel or stream listed here and want it removed, [open an issue](
 
 Built by Virgil C, in memory of Mr. I. Roth, my neighbour.
 
-Uses [globe.gl](https://globe.gl), [hls.js](https://github.com/video-dev/hls.js), Natural Earth country shapes and [iptv-org](https://github.com/iptv-org) data.
+Uses [globe.gl](https://globe.gl) (MIT, bundled in `js/vendor/`), [hls.js](https://github.com/video-dev/hls.js), Natural Earth country shapes and [iptv-org](https://github.com/iptv-org) data.
 
 ## License
 
