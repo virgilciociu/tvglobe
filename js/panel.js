@@ -182,6 +182,25 @@ function showPlayerMessage(key) {
   playerMsg.style.display = key ? '' : 'none';
 }
 
+const IS_SAFARI = !!window.WebKitPlaybackTargetAvailabilityEvent;
+let playToken = 0;
+let hlsLibPromise = null;
+
+// hls.js (about 600 KB) is downloaded only when a stream is played for the first time.
+function loadHlsLib() {
+  if (window.Hls) return Promise.resolve();
+  if (!hlsLibPromise) {
+    hlsLibPromise = new Promise(resolve => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1';
+      s.onload = resolve;
+      s.onerror = () => { hlsLibPromise = null; resolve(); };
+      document.head.appendChild(s);
+    });
+  }
+  return hlsLibPromise;
+}
+
 function playUrl(urls, index) {
   destroyHls();
   const url = urls[index];
@@ -196,12 +215,20 @@ function playUrl(urls, index) {
   };
 
   showPlayerMessage('loading');
+  const myToken = playToken + 1;
   stallTimer = setTimeout(() => {
+    if (myToken !== playToken) return;
     destroyHls();
     tryNext();
   }, STALL_MS);
 
-  if (window.Hls && Hls.isSupported()) {
+  const token = ++playToken;
+  const nativeHls = () => {
+    playerEl.src = url;
+    playerEl.onerror = tryNext;
+    playerEl.play().catch(() => {});
+  };
+  const hlsJs = () => {
     hls = new Hls();
     hls.loadSource(url);
     hls.attachMedia(playerEl);
@@ -211,13 +238,18 @@ function playUrl(urls, index) {
     hls.on(Hls.Events.ERROR, (_e, data) => {
       if (data.fatal) tryNext();
     });
-  } else if (playerEl.canPlayType('application/vnd.apple.mpegurl')) {
-    // Safari / iOS: native HLS
-    playerEl.src = url;
-    playerEl.onerror = tryNext;
-    playerEl.play().catch(() => {});
+  };
+
+  if (IS_SAFARI && playerEl.canPlayType('application/vnd.apple.mpegurl')) {
+    // Safari / iOS: native HLS (also needed for AirPlay). hls.js is not even downloaded.
+    nativeHls();
   } else {
-    showPlayerMessage('playError');
+    loadHlsLib().then(() => {
+      if (token !== playToken) return; // another channel was chosen meanwhile
+      if (window.Hls && Hls.isSupported()) hlsJs();
+      else if (playerEl.canPlayType('application/vnd.apple.mpegurl')) nativeHls();
+      else showPlayerMessage('playError');
+    });
   }
 }
 
@@ -291,6 +323,7 @@ function renderChannels() {
 
   // Playable channels first, link-only channels after them.
   const sorted = [...visible].sort((a, b) => Number(!!a.restricted) - Number(!!b.restricted));
+  zapList = sorted.filter(c => !(c.restricted && c.embeddable === false));
 
   for (const channel of sorted) {
     const li = document.createElement('li');
@@ -436,3 +469,17 @@ panel.addEventListener('touchend', () => { touchStartY = null; }, { passive: tru
 panelScroll.addEventListener('scroll', () => { if (panelScroll.scrollTop > 0) setExpanded(true); }, { passive: true });
 channelSearchInput.addEventListener('focus', () => setExpanded(true));
 window.addEventListener('resize', () => { if (!isPhoneLayout()) setExpanded(false); });
+
+// --- Channel zapping: previous / next channel, like a TV remote ------------
+let zapList = [];
+
+function zap(step) {
+  if (!zapList.length) return;
+  const i = zapList.findIndex(c => c.id === playingId);
+  const next = zapList[(i + step + zapList.length) % zapList.length];
+  playChannel(next);
+  const li = [...channelList.children].find(el => el.dataset.id === next.id);
+  if (li) li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+document.getElementById('zap-prev').addEventListener('click', () => zap(-1));
+document.getElementById('zap-next').addEventListener('click', () => zap(1));

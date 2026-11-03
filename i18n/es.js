@@ -25,6 +25,10 @@ window.I18N.es = {
   openOfficial: 'Abrir en el sitio oficial',
   embedHint: 'Si el reproductor no carga, este canal no permite la incrustación.',
   castToTv: 'Enviar a la TV',
+  searchCountry: 'Buscar país',
+  myCountry: 'Mi país',
+  prevChannel: 'Canal anterior',
+  nextChannel: 'Canal siguiente',
   close: 'Cerrar',
   language: 'Idioma',
   categories: {

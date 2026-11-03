@@ -25,6 +25,10 @@ window.I18N.en = {
   openOfficial: 'Open on the official site',
   embedHint: 'If the player does not load, this channel does not allow embedding.',
   castToTv: 'Send to TV',
+  searchCountry: 'Search country',
+  myCountry: 'My country',
+  prevChannel: 'Previous channel',
+  nextChannel: 'Next channel',
   close: 'Close',
   language: 'Language',
   categories: {

@@ -1,7 +1,7 @@
 // TV Globe - step 3: rotating 3D globe with hover, click-to-zoom on a country.
 
-const COUNTRIES_URL =
-  'https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson';
+// Natural Earth countries, trimmed to the fields Globe uses (served from this site, so it is cached and small).
+const COUNTRIES_URL = 'data/countries.json?v=24';
 
 const COLOR_LAND = '#8ec1ff';
 const COLOR_HOVER = '#ffd54f';
@@ -158,5 +158,90 @@ fetch(COUNTRIES_URL)
   .then(res => res.json())
   .then(data => {
     globe.polygonsData(data.features);
+    if (typeof onCountriesReady === 'function') onCountriesReady();
   })
   .catch(err => console.error('Could not load country data:', err));
+
+// --- Country search and "my country" ------------------------------------
+
+const countrySearch = document.getElementById('country-search');
+const countrySuggestions = document.getElementById('country-suggestions');
+const myCountryBtn = document.getElementById('my-country-btn');
+
+function normText(s) {
+  return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function findCountries(query) {
+  const q = normText(query.trim());
+  if (!q) return [];
+  const hits = [];
+  for (const f of globe.polygonsData()) {
+    const names = [countryName(f), f.properties.NAME, f.properties.ADMIN].map(normText);
+    if (!names.some(n => n.includes(q))) continue;
+    const code = countryCode(f);
+    hits.push({
+      feature: f,
+      starts: names.some(n => n.startsWith(q)) ? 0 : 1,
+      hasChannels: code && window.CHANNELS && window.CHANNELS[code] ? 0 : 1
+    });
+  }
+  hits.sort((a, b) => a.starts - b.starts || a.hasChannels - b.hasChannels);
+  return hits.slice(0, 6).map(h => h.feature);
+}
+
+function chooseCountry(feature) {
+  countrySearch.value = '';
+  countrySuggestions.hidden = true;
+  countrySearch.blur();
+  selectCountry(feature);
+}
+
+function renderSuggestions() {
+  const found = findCountries(countrySearch.value);
+  countrySuggestions.innerHTML = '';
+  countrySuggestions.hidden = !found.length;
+  for (const f of found) {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = countryName(f);
+    const code = countryCode(f);
+    if (code && window.CHANNELS && window.CHANNELS[code]) btn.textContent += '  \u{1F4FA}';
+    btn.addEventListener('click', () => chooseCountry(f));
+    li.appendChild(btn);
+    countrySuggestions.appendChild(li);
+  }
+}
+
+countrySearch.addEventListener('input', renderSuggestions);
+countrySearch.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const first = findCountries(countrySearch.value)[0];
+    if (first) chooseCountry(first);
+  } else if (e.key === 'Escape') {
+    countrySearch.value = '';
+    countrySuggestions.hidden = true;
+  }
+  e.stopPropagation();
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.country-search')) countrySuggestions.hidden = true;
+});
+
+// The country from the phone's language/region (e.g. en-GB -> United Kingdom), if any.
+function regionFromBrowser() {
+  for (const l of navigator.languages || [navigator.language || '']) {
+    const m = /^[a-z]{2,3}[-_]([A-Za-z]{2})\b/.exec(l);
+    if (m) return m[1].toUpperCase();
+  }
+  return null;
+}
+
+function onCountriesReady() {
+  const region = regionFromBrowser();
+  const feature = region && globe.polygonsData().find(d => countryCode(d) === region);
+  if (!feature) return;
+  myCountryBtn.hidden = false;
+  myCountryBtn.addEventListener('click', () => selectCountry(feature));
+}

@@ -25,6 +25,10 @@ window.I18N.de = {
   openOfficial: 'Auf der offiziellen Website öffnen',
   embedHint: 'Wenn der Player nicht lädt, erlaubt dieser Sender keine Einbettung.',
   castToTv: 'Auf TV senden',
+  searchCountry: 'Land suchen',
+  myCountry: 'Mein Land',
+  prevChannel: 'Vorheriger Sender',
+  nextChannel: 'Nächster Sender',
   close: 'Schließen',
   language: 'Sprache',
   categories: {

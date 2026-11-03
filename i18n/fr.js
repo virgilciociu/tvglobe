@@ -25,6 +25,10 @@ window.I18N.fr = {
   openOfficial: 'Ouvrir sur le site officiel',
   embedHint: 'Si le lecteur ne se charge pas, cette chaîne n’autorise pas l’intégration.',
   castToTv: 'Envoyer sur la TV',
+  searchCountry: 'Chercher un pays',
+  myCountry: 'Mon pays',
+  prevChannel: 'Chaîne précédente',
+  nextChannel: 'Chaîne suivante',
   close: 'Fermer',
   language: 'Langue',
   categories: {

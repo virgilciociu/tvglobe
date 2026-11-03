@@ -12,6 +12,8 @@ Hobby project: no ads, no tracking, nothing hosted by the author.
 - Public streams play directly (hls.js)
 - Commercial channels open their own official player inside the page (or a link if the site refuses framing)
 - Automatic interface language from the browser: English, German, Romanian, French, Spanish (English fallback)
+- Country search, "my country" shortcut and previous/next channel buttons
+- "Send to TV" button: AirPlay (Safari) and Chromecast (Chrome), for directly played channels
 - Info page explaining how channels are handled
 
 Currently 21 countries have channels: RO, DE, IT, GB, PL, UA, FR, US, HU, SK, RS, ES, AT, GR, BG, MD, HR, LV, LT, MX, CA. Other countries show an "under construction" message.

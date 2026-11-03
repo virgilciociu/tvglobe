@@ -25,6 +25,10 @@ window.I18N.ro = {
   openOfficial: 'Deschide pe site-ul oficial',
   embedHint: 'Dacă playerul nu se încarcă, acest canal nu permite încorporarea.',
   castToTv: 'Trimite pe TV',
+  searchCountry: 'Caută țara',
+  myCountry: 'Țara mea',
+  prevChannel: 'Canalul anterior',
+  nextChannel: 'Canalul următor',
   close: 'Închide',
   language: 'Limba',
   categories: {
