@@ -38,7 +38,7 @@ Object.assign(window.I18N.en, {
 
   sec6Title: 'Channels in this version',
   channelsIntro: 'Generated from the current channel list.',
-  countryLine: '{country}: {direct} played directly, {official} official players',
+  countryLine: '{country}: {direct} played directly',
   officialNames: 'Official players:',
 
   dedication: 'This website was built by Virgil C and is in memory of Mr. I. Roth, my neighbour.'

@@ -38,7 +38,7 @@ Object.assign(window.I18N.de, {
 
   sec6Title: 'Sender in dieser Version',
   channelsIntro: 'Aus der aktuellen Senderliste erzeugt.',
-  countryLine: '{country}: {direct} direkt abgespielt, {official} offizielle Player',
+  countryLine: '{country}: {direct} direkt abgespielt',
   officialNames: 'Offizielle Player:',
 
   dedication: 'Diese Website wurde von Virgil C erstellt und ist dem Andenken von Herrn I. Roth gewidmet, meinem Nachbarn.'

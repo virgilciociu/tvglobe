@@ -38,7 +38,7 @@ Object.assign(window.I18N.ro, {
 
   sec6Title: 'Canalele din această versiune',
   channelsIntro: 'Generat din lista curentă de canale.',
-  countryLine: '{country}: {direct} redate direct, {official} playere oficiale',
+  countryLine: '{country}: {direct} redate direct',
   officialNames: 'Playere oficiale:',
 
   dedication: 'Acest website este construit de Virgil C și este în amintirea domnului I. Roth, vecinul meu.'

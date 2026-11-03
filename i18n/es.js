@@ -82,7 +82,7 @@ Object.assign(window.I18N.es, {
 
   sec6Title: 'Canales en esta versión',
   channelsIntro: 'Generado a partir de la lista actual de canales.',
-  countryLine: '{country}: {direct} reproducidos directamente, {official} reproductores oficiales',
+  countryLine: '{country}: {direct} reproducidos directamente',
   officialNames: 'Reproductores oficiales:',
 
   dedication: 'Este sitio web fue creado por Virgil C y está en memoria del Sr. I. Roth, mi vecino.'

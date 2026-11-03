@@ -82,7 +82,7 @@ Object.assign(window.I18N.fr, {
 
   sec6Title: 'Chaînes dans cette version',
   channelsIntro: 'Généré à partir de la liste actuelle des chaînes.',
-  countryLine: '{country} : {direct} lues directement, {official} lecteurs officiels',
+  countryLine: '{country} : {direct} lues directement',
   officialNames: 'Lecteurs officiels :',
 
   dedication: 'Ce site a été créé par Virgil C, en mémoire de M. I. Roth, mon voisin.'
